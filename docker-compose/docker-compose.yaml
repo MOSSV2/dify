@@ -494,6 +494,3 @@ networks:
   ssrf_proxy_network:
     driver: bridge
     internal: true
-
-  oradata:
-  dify_es01_data:
