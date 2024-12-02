@@ -369,7 +369,12 @@ class EasyUIBasedGenerateTaskPipeline(BasedGenerateTaskPipeline, MessageCycleMan
         msgdict["message"] = PromptMessageUtil.prompt_messages_to_prompt_for_saving_all(
             self._model_config.mode, self._task_state.llm_result.prompt_messages
         )
-        hub_client.upload_hub(self._message.from_account_id, self._message.id, json.dumps(msgdict))
+        try:
+            msgdict = json.dumps(msgdict, ensure_ascii=False)
+        except Exception as e:
+            msgdict = json.dumps(msgdict)
+
+        hub_client.upload_hub(self._message.from_account_id, self._message.id, msgdict)
         logger.warning(f"=== _save_message done")
 
         if trace_manager:
